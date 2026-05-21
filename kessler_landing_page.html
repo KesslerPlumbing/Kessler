@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Plumber Charleston SC | Kessler Plumbing | 24/7 Service</title>
+    <meta name="description" content="Emergency plumbing in Charleston SC. 24/7 service, licensed plumbers, upfront pricing. Call now for fast service.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap');
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #1a1a1a;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header / Phone CTA - STICKY */
+        .sticky-cta {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(211, 47, 47, 0.3);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .sticky-cta .phone {
+            font-size: 1.3rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1px;
+        }
+
+        .sticky-cta .cta-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .call-btn {
+            background: white;
+            color: #d32f2f;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .call-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .call-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #0d47a1 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            letter-spacing: -1px;
+        }
+
+        .hero .subheadline {
+            font-size: 1.3rem;
+            margin-bottom: 24px;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+
+        .hero .cta-primary {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .hero .cta-primary:hover {
+            background: #ff5722;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Trust Badges */
+        .trust-section {
+            background: white;
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: -40px auto 0;
+            position: relative;
+            z-index: 10;
+            border-radius: 12px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .trust-badge {
+            text-align: center;
+            padding: 20px;
+            animation: scaleIn 0.6s ease-out backwards;
+        }
+
+        .trust-badge:nth-child(1) { animation-delay: 0.1s; }
+        .trust-badge:nth-child(2) { animation-delay: 0.2s; }
+        .trust-badge:nth-child(3) { animation-delay: 0.3s; }
+        .trust-badge:nth-child(4) { animation-delay: 0.4s; }
+
+        .trust-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .trust-badge h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #0d47a1;
+            margin-bottom: 6px;
+        }
+
+        .trust-badge p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Services Section */
+        .services {
+            background: #f5f5f5;
+            padding: 80px 20px;
+            margin-top: 40px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #0d47a1;
+            letter-spacing: -0.5px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            animation: slideUp 0.6s ease-out backwards;
+        }
+
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+        .service-card:nth-child(5) { animation-delay: 0.5s; }
+        .service-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(13, 71, 161, 0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .service-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0d47a1;
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Why Choose Us */
+        .why-us {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .why-us-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .why-us-text h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #0d47a1;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .why-us-list {
+            list-style: none;
+        }
+
+        .why-us-list li {
+            padding: 12px 0;
+            padding-left: 40px;
+            position: relative;
+            color: #333;
+            font-weight: 500;
+            font-size: 1.05rem;
+        }
+
+        .why-us-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #ff6b35;
+            font-weight: 800;
+            font-size: 1.3rem;
+        }
+
+        .why-us-image {
+            background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+            border-radius: 12px;
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
+
+        .why-us-image h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .why-us-image p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .form-section h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .form-section p {
+            font-size: 1.05rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #0d47a1;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0d47a1;
+            box-shadow: 0 0 8px rgba(13, 71, 161, 0.2);
+        }
+
+        .form-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff5722 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sticky-cta {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subheadline {
+                font-size: 1.1rem;
+            }
+
+            .why-us-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .trust-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Phone CTA -->
+    <div class="sticky-cta">
+        <div>
+            <div class="cta-text">📞 Emergency Service Available</div>
+            <div class="phone">(843) 555-KESSLER</div>
+        </div>
+        <a href="tel:+18435555377"><button class="call-btn">CALL NOW</button></a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Burst Pipe? Water Heater Down? We're Here 24/7</h1>
+            <p class="subheadline">Same-day emergency plumbing service in Charleston, SC</p>
+            <button class="cta-primary" onclick="document.querySelector('.form-section').scrollIntoView({behavior: 'smooth'})">
+                Get Help Now
+            </button>
+        </div>
+    </section>
+
+    <!-- Trust Badges -->
+    <section class="trust-section">
+        <div class="trust-badge">
+            <div class="trust-icon">⚡</div>
+            <h3>24/7 Emergency</h3>
+            <p>Available nights, weekends & holidays</p>
+        </div>
+        <div class="trust-badge">
+            <div class="trust-icon">💯</div>
+            <h3>Licensed & Insured</h3>
+            <p>Professional, experienced plumbers</p>
+        </div>
+        <div class="trust-badge">
+            <div class="trust-icon">💰</div>
+            <h3>Upfront Pricing</h3>
+            <p>No hidden fees or surprises</p>
+        </div>
+        <div class="trust-badge">
+            <div class="trust-icon">⭐</div>
+            <h3>500+ 5-Star Reviews</h3>
+            <p>Trusted by Charleston families</p>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services">
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🚨</div>
+                <h3>Emergency Repairs</h3>
+                <p>Burst pipes, leaks, water damage. We respond fast to minimize damage.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔥</div>
+                <h3>Water Heater Service</h3>
+                <p>Installation, repair, and maintenance for all water heater types.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🚽</div>
+                <h3>Drain Cleaning</h3>
+                <p>Clogged drains? We use hydro-jetting and rooter service.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔧</div>
+                <h3>Pipe Repair & Replacement</h3>
+                <p>Fix corrosion, leaks, and old piping with modern solutions.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🏠</div>
+                <h3>New Construction & Remodels</h3>
+                <p>Plumbing installation for new builds and home renovations.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🧊</div>
+                <h3>Preventive Maintenance</h3>
+                <p>Seasonal inspections to catch problems before they become emergencies.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us -->
+    <section class="why-us">
+        <div class="why-us-content">
+            <div class="why-us-text">
+                <h2>Why Choose Kessler Plumbing?</h2>
+                <ul class="why-us-list">
+                    <li>Respond within 30 minutes of your call</li>
+                    <li>Transparent pricing before we start</li>
+                    <li>Licensed, bonded, and fully insured</li>
+                    <li>Family-owned since 1995</li>
+                    <li>Satisfaction guaranteed or your money back</li>
+                    <li>Expert technicians with 15+ years experience</li>
+                </ul>
+            </div>
+            <div class="why-us-image">
+                <h3>500+</h3>
+                <p>Happy customers choose us every month in Charleston for their plumbing needs. Join them today.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-section">
+        <h2>Need Plumbing Help?</h2>
+        <p>Fill out the form below or call us immediately for emergencies</p>
+        <div class="form-container">
+            <form onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address *</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="issue">What's the problem? *</label>
+                    <select id="issue" name="issue" required>
+                        <option value="">Select an issue</option>
+                        <option value="burst-pipe">Burst Pipe / Leak</option>
+                        <option value="no-hot-water">No Hot Water</option>
+                        <option value="clogged-drain">Clogged Drain</option>
+                        <option value="water-damage">Water Damage</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Additional Details</label>
+                    <textarea id="message" name="message" rows="3"></textarea>
+                </div>
+                <button type="submit" class="form-submit">Request Service</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Kessler Plumbing - Charleston, SC | (843) 555-KESSLER | Licensed & Insured</p>
+    </footer>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const issue = document.getElementById('issue').value;
+            alert(`Thank you, ${name}!\n\nWe received your request. Our team will call you shortly at ${phone}.\n\nFor immediate assistance, call (843) 555-KESSLER`);
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>

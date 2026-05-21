@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kessler Plumbing - Live Command Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap');
+
+        body {
+            background: #0a0e27;
+            color: #0ff;
+            font-family: 'Space Mono', monospace;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background grid effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(0deg, transparent 24%, rgba(0, 255, 255, 0.05) 25%, rgba(0, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, 0.05) 75%, rgba(0, 255, 255, 0.05) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(0, 255, 255, 0.05) 25%, rgba(0, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, 0.05) 75%, rgba(0, 255, 255, 0.05) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+            overflow-y: auto;
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(20, 28, 60, 0.95) 100%);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #0ff;
+            text-shadow: 0 0 20px #0ff, 0 0 40px #0099ff;
+            letter-spacing: 3px;
+            animation: glow 2s ease-in-out infinite;
+            margin-bottom: 8px;
+        }
+
+        .status {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 0.9rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #0f0;
+            box-shadow: 0 0 10px #0f0;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        /* Main Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            flex: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .panel {
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            background: rgba(20, 35, 70, 0.6);
+            border-radius: 4px;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2), inset 0 0 20px rgba(0, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0ff, transparent);
+            animation: scanlines 3s linear infinite;
+        }
+
+        .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: #0f0;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #0f0;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            padding-bottom: 10px;
+        }
+
+        /* Left Panel - Stats */
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .stat-box {
+            background: rgba(0, 100, 100, 0.3);
+            border: 1px solid rgba(0, 255, 100, 0.4);
+            padding: 14px;
+            border-radius: 3px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #0ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f0;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        /* Center Panel - Live Map */
+        .center-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .map-container {
+            flex: 1;
+            position: relative;
+            background: linear-gradient(135deg, #0a1628 0%, #162a4a 100%);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: linear-gradient(135deg, #0a1628 0%, #162a4a 100%);
+        }
+
+        /* Right Panel - Events */
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .event {
+            background: rgba(0, 255, 100, 0.05);
+            border-left: 3px solid #0f0;
+            padding: 10px;
+            border-radius: 2px;
+            font-size: 0.85rem;
+            animation: slideIn 0.5s ease-out;
+            line-height: 1.4;
+        }
+
+        .event.urgent {
+            border-left-color: #f00;
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        .event-time {
+            color: #0ff;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 2px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+        }
+
+        .event-text {
+            color: #0f0;
+        }
+
+        .event.urgent .event-text {
+            color: #ff6b6b;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button {
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            color: #0ff;
+            padding: 10px 20px;
+            border-radius: 3px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            text-shadow: 0 0 10px #0ff;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* Scrollbar styling */
+        .right-panel::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .right-panel::-webkit-scrollbar-track {
+            background: rgba(0, 255, 255, 0.05);
+        }
+
+        .right-panel::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .right-panel::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 255, 255, 0.6);
+        }
+
+        /* Animations */
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 20px #0ff, 0 0 40px #0099ff;
+            }
+            50% {
+                text-shadow: 0 0 30px #0ff, 0 0 60px #0099ff, 0 0 80px #0066ff;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                box-shadow: 0 0 10px #0f0;
+            }
+            50% {
+                opacity: 0.5;
+                box-shadow: 0 0 5px #0f0;
+            }
+        }
+
+        @keyframes scanlines {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .panel {
+                max-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ KESSLER COMMAND CENTER ⚡</h1>
+            <div class="status">
+                <div class="status-item">
+                    <span class="status-dot"></span>
+                    <span>SYSTEM ONLINE</span>
+                </div>
+                <div class="status-item">
+                    📍 Charleston, SC
+                </div>
+                <div class="status-item">
+                    <span id="time">00:00:00</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard">
+            <!-- LEFT PANEL -->
+            <div class="panel left-panel">
+                <div class="panel-title">📊 METRICS</div>
+                
+                <div class="stat-box">
+                    <div class="stat-label">Total Calls</div>
+                    <div class="stat-value" id="totalCalls">0</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-label">Today</div>
+                    <div class="stat-value" id="todayCalls">0</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-label">This Hour</div>
+                    <div class="stat-value" id="hourCalls">0</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-label">Avg Response</div>
+                    <div class="stat-value" id="avgResponse">24m</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-label">Win Rate</div>
+                    <div class="stat-value" id="winRate">72%</div>
+                </div>
+            </div>
+
+            <!-- CENTER PANEL -->
+            <div class="panel center-panel">
+                <div class="panel-title">🗺️ LIVE ACTIVITY MAP</div>
+                <div class="map-container">
+                    <canvas id="liveMap"></canvas>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL -->
+            <div class="panel">
+                <div class="panel-title">📡 INCOMING ALERTS</div>
+                <div class="right-panel" id="eventLog"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button onclick="simulateCall()">+ Simulate Call</button>
+            <button onclick="clearEvents()">Clear Log</button>
+            <button onclick="toggleSimulation()">▶ Auto Simulation</button>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let totalCalls = 42;
+        let todayCalls = 12;
+        let hourCalls = 3;
+        let events = [];
+        let isSimulating = false;
+        let particles = [];
+
+        // Canvas setup
+        const canvas = document.getElementById('liveMap');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Charleston neighborhoods with coordinates
+        const neighborhoods = [
+            { name: 'Downtown', x: 0.5, y: 0.4, color: '#ff3333' },
+            { name: 'Mt. Pleasant', x: 0.65, y: 0.3, color: '#ff9933' },
+            { name: 'James Island', x: 0.4, y: 0.65, color: '#ff6b35' },
+            { name: 'Summerville', x: 0.25, y: 0.2, color: '#ffaa33' },
+            { name: 'Folly Beach', x: 0.75, y: 0.7, color: '#ff5555' },
+            { name: 'King Street', x: 0.48, y: 0.42, color: '#ff4444' },
+            { name: 'Historic District', x: 0.52, y: 0.38, color: '#ff6666' }
+        ];
+
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            const time = now.toLocaleTimeString();
+            document.getElementById('time').textContent = time;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Add event to log
+        function addEvent(neighborhood, type = 'normal') {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            const services = [
+                'Burst Pipe Emergency',
+                'No Hot Water',
+                'Clogged Drain',
+                'Water Leak',
+                'Emergency Service'
+            ];
+
+            const service = services[Math.floor(Math.random() * services.length)];
+            
+            const event = {
+                time: timeStr,
+                neighborhood: neighborhood,
+                service: service,
+                type: type
+            };
+
+            events.unshift(event);
+            if (events.length > 15) events.pop();
+
+            const eventLog = document.getElementById('eventLog');
+            eventLog.innerHTML = events.map(e => `
+                <div class="event ${e.type === 'urgent' ? 'urgent' : ''}">
+                    <span class="event-time">[${e.time}]</span>
+                    <span class="event-text">${e.neighborhood} • ${e.service}</span>
+                </div>
+            `).join('');
+        }
+
+        // Simulate call
+        function simulateCall() {
+            const hood = neighborhoods[Math.floor(Math.random() * neighborhoods.length)];
+            totalCalls++;
+            todayCalls++;
+            hourCalls++;
+
+            document.getElementById('totalCalls').textContent = totalCalls;
+            document.getElementById('todayCalls').textContent = todayCalls;
+            document.getElementById('hourCalls').textContent = hourCalls;
+
+            addEvent(hood.name, Math.random() > 0.8 ? 'urgent' : 'normal');
+
+            // Add particle burst
+            for (let i = 0; i < 8; i++) {
+                particles.push({
+                    x: hood.x * canvas.width,
+                    y: hood.y * canvas.height,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: (Math.random() - 0.5) * 4,
+                    life: 1,
+                    color: hood.color
+                });
+            }
+        }
+
+        // Clear events
+        function clearEvents() {
+            events = [];
+            document.getElementById('eventLog').innerHTML = '<p style="color: #0ff; text-align: center; padding: 20px;">Log cleared</p>';
+        }
+
+        // Toggle simulation
+        function toggleSimulation() {
+            isSimulating = !isSimulating;
+            if (isSimulating) {
+                const interval = setInterval(() => {
+                    if (!isSimulating) clearInterval(interval);
+                    if (Math.random() > 0.6) simulateCall();
+                }, 3000);
+            }
+        }
+
+        // Reset hourly counter
+        setInterval(() => {
+            hourCalls = Math.floor(Math.random() * 5);
+            document.getElementById('hourCalls').textContent = hourCalls;
+        }, 3600000);
+
+        // Draw map
+        function draw() {
+            ctx.fillStyle = 'rgba(10, 22, 40, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw neighborhood circles
+            neighborhoods.forEach(hood => {
+                const x = hood.x * canvas.width;
+                const y = hood.y * canvas.height;
+
+                // Glow effect
+                const gradient = ctx.createRadialGradient(x, y, 0, x, y, 60);
+                gradient.addColorStop(0, hood.color + '40');
+                gradient.addColorStop(1, hood.color + '00');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x - 60, y - 60, 120, 120);
+
+                // Circle
+                ctx.fillStyle = hood.color;
+                ctx.beginPath();
+                ctx.arc(x, y, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Pulse ring
+                ctx.strokeStyle = hood.color + '80';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(x, y, 20 + Math.sin(Date.now() / 500) * 10, 0, Math.PI * 2);
+                ctx.stroke();
+            });
+
+            // Draw particles
+            particles = particles.filter(p => p.life > 0);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life -= 0.02;
+                p.vy += 0.2; // gravity
+
+                ctx.fillStyle = p.color + Math.floor(p.life * 255).toString(16).padStart(2, '0');
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Draw grid lines
+            ctx.strokeStyle = 'rgba(0, 255, 255, 0.05)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < canvas.width; i += 50) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, canvas.height);
+                ctx.stroke();
+            }
+            for (let i = 0; i < canvas.height; i += 50) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(canvas.width, i);
+                ctx.stroke();
+            }
+
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+
+        // Start with some initial data
+        for (let i = 0; i < 3; i++) {
+            setTimeout(() => simulateCall(), i * 500);
+        }
+    </script>
+</body>
+</html>
